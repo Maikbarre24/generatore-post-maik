@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Studio Poster Pro - Editor Professionale</title>
+    <title>Studio Poster Pro - Editor Responsive</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
     <style>
@@ -14,202 +14,106 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --success-color: #28a745;
+            --danger-color: #e74c3c;
+            --warning-color: #ffc107;
+            --dark-color: #2c3e50;
+            --light-color: #f8f9fa;
+        }
+
         body {
             background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding: 10px;
         }
 
         .container {
             max-width: 1400px;
             margin: 0 auto;
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
             overflow: hidden;
+            height: 95vh;
+            display: flex;
+            flex-direction: column;
         }
 
-        header {
-            background: linear-gradient(135deg, #2c3e50, #34495e);
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--dark-color), #34495e);
             color: white;
-            padding: 25px;
-            text-align: center;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
-        h1 {
-            font-size: 2.8em;
-            margin-bottom: 10px;
+        .header h1 {
+            font-size: clamp(1.5em, 4vw, 2.5em);
             background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            margin: 0;
         }
 
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5em;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        /* Main Content - Layout Responsive */
         .main-content {
             display: grid;
-            grid-template-columns: 350px 1fr 350px;
-            min-height: 900px;
-        }
-
-        /* Pannello Sinistro - Controlli */
-        .controls-panel {
-            background: #f8f9fa;
-            padding: 25px;
-            border-right: 1px solid #e9ecef;
-            overflow-y: auto;
-        }
-
-        .control-group {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-        }
-
-        .control-group h3 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-            font-size: 1.3em;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .control-group h3 i {
-            font-size: 1.2em;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #495057;
-            font-weight: 600;
-            font-size: 0.95em;
-        }
-
-        input[type="text"],
-        input[type="number"],
-        input[type="url"],
-        textarea,
-        select {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            font-size: 14px;
-            margin-bottom: 15px;
-            transition: all 0.3s ease;
-        }
-
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-
-        /* Upload Immagine */
-        .image-upload {
-            border: 3px dashed #ddd;
-            border-radius: 12px;
-            padding: 30px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-bottom: 15px;
-        }
-
-        .image-upload:hover {
-            border-color: #667eea;
-            background: #f8f9ff;
-        }
-
-        .upload-icon {
-            font-size: 3em;
-            color: #667eea;
-            margin-bottom: 10px;
-        }
-
-        /* Template Grid */
-        .template-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 15px;
-        }
-
-        .template-item {
-            position: relative;
-            cursor: pointer;
-            border-radius: 8px;
+            grid-template-columns: 300px 1fr 300px;
+            flex: 1;
             overflow: hidden;
-            border: 3px solid transparent;
-            transition: all 0.3s ease;
         }
 
-        .template-item.active {
-            border-color: #667eea;
-            transform: scale(1.05);
+        /* Panels Base Style */
+        .panel {
+            background: var(--light-color);
+            padding: 20px;
+            overflow-y: auto;
+            border: 1px solid #e9ecef;
         }
 
-        .template-preview {
-            width: 100%;
-            height: 80px;
-            background: linear-gradient(45deg, #667eea, #764ba2);
+        .controls-panel {
+            border-right: 1px solid #ddd;
         }
 
-        .template-2 { background: linear-gradient(45deg, #e74c3c, #e67e22); }
-        .template-3 { background: linear-gradient(45deg, #2ecc71, #3498db); }
-        .template-4 { background: linear-gradient(45deg, #9b59b6, #34495e); }
-        .template-5 { background: linear-gradient(45deg, #1abc9c, #16a085); }
-        .template-6 { background: linear-gradient(45deg, #f1c40f, #f39c12); }
-
-        /* Toolbar Elementi */
-        .element-toolbar {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 15px;
+        .properties-panel {
+            border-left: 1px solid #ddd;
         }
 
-        .element-btn {
-            padding: 12px;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            background: white;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.3s ease;
-            font-weight: 600;
-        }
-
-        .element-btn:hover {
-            border-color: #667eea;
-            background: #f0f4ff;
-            transform: translateY(-2px);
-        }
-
-        /* Pannello Centrale - Canvas */
-        .canvas-panel {
+        /* Canvas Area */
+        .canvas-area {
             background: #2c3e50;
-            padding: 30px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            padding: 20px;
             position: relative;
         }
 
         .canvas-container {
             background: white;
-            border-radius: 15px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: auto;
+            max-width: 100%;
+            max-height: 100%;
         }
 
         #posterCanvas {
@@ -217,158 +121,280 @@
             background: white;
         }
 
-        .canvas-controls {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
+        /* Control Groups */
+        .control-group {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
         }
 
-        .canvas-btn {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 8px;
-            background: #3498db;
-            color: white;
+        .control-group h3 {
+            color: var(--dark-color);
+            margin-bottom: 12px;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #495057;
             font-weight: 600;
-            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        input[type="text"],
+        input[type="url"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 14px;
+            margin-bottom: 12px;
             transition: all 0.3s ease;
         }
 
-        .canvas-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
-        .canvas-btn.delete {
-            background: #e74c3c;
-        }
-
-        .canvas-btn.delete:hover {
-            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
-        }
-
-        /* Pannello Destro - Proprietà */
-        .properties-panel {
-            background: #f8f9fa;
+        /* Image Upload */
+        .image-upload {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
             padding: 25px;
-            border-left: 1px solid #e9ecef;
-            overflow-y: auto;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 12px;
         }
 
-        .property-group {
-            margin-bottom: 25px;
+        .image-upload:hover {
+            border-color: var(--primary-color);
+            background: #f8f9ff;
         }
 
-        .slider-container {
-            margin-bottom: 15px;
-        }
-
-        .slider-label {
-            display: flex;
-            justify-content: between;
+        .upload-icon {
+            font-size: 2.5em;
+            color: var(--primary-color);
             margin-bottom: 8px;
         }
 
-        input[type="range"] {
-            width: 100%;
-            margin-bottom: 10px;
+        /* Template Grid */
+        .template-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 12px;
         }
 
+        .template-item {
+            position: relative;
+            cursor: pointer;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .template-item.active {
+            border-color: var(--primary-color);
+            transform: scale(1.05);
+        }
+
+        .template-preview {
+            width: 100%;
+            height: 60px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .template-2 { background: linear-gradient(45deg, #e74c3c, #e67e22); }
+        .template-3 { background: linear-gradient(45deg, #2ecc71, #3498db); }
+        .template-4 { background: linear-gradient(45deg, #9b59b6, #34495e); }
+
+        /* Element Toolbar */
+        .element-toolbar {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .element-btn {
+            padding: 10px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .element-btn:hover {
+            border-color: var(--primary-color);
+            background: #f0f4ff;
+            transform: translateY(-1px);
+        }
+
+        /* Color Picker */
         .color-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-            margin-bottom: 15px;
+            gap: 6px;
+            margin-bottom: 12px;
         }
 
         .color-swatch {
-            width: 35px;
-            height: 35px;
-            border-radius: 6px;
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
             cursor: pointer;
-            border: 3px solid transparent;
+            border: 2px solid transparent;
             transition: all 0.3s ease;
         }
 
         .color-swatch.active {
-            border-color: #2c3e50;
+            border-color: var(--dark-color);
             transform: scale(1.1);
         }
 
+        /* Font Selector */
         .font-selector {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-bottom: 15px;
+            gap: 6px;
+            margin-bottom: 12px;
         }
 
         .font-option {
-            padding: 10px;
+            padding: 8px;
             border: 2px solid #e9ecef;
-            border-radius: 6px;
+            border-radius: 5px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 0.9em;
+            font-size: 0.8em;
         }
 
         .font-option.active {
-            border-color: #667eea;
+            border-color: var(--primary-color);
             background: #f0f4ff;
         }
 
         .font-arial { font-family: Arial, sans-serif; }
         .font-georgia { font-family: Georgia, serif; }
         .font-verdana { font-family: Verdana, sans-serif; }
-        .font-tahoma { font-family: Tahoma, sans-serif; }
-        .font-courier { font-family: 'Courier New', monospace; }
         .font-impact { font-family: Impact, sans-serif; }
 
-        /* Bottoni Azione */
+        /* Canvas Controls */
+        .canvas-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .canvas-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 6px;
+            background: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+        }
+
+        .canvas-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .canvas-btn.delete {
+            background: var(--danger-color);
+        }
+
+        /* Action Buttons */
         .action-buttons {
             display: grid;
-            gap: 12px;
-            margin-top: 30px;
+            gap: 10px;
+            margin-top: 20px;
         }
 
         .action-btn {
-            padding: 15px;
+            padding: 12px;
             border: none;
-            border-radius: 8px;
-            font-size: 16px;
+            border-radius: 6px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .action-btn.primary {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
         }
 
         .action-btn.success {
-            background: linear-gradient(135deg, #28a745, #20c997);
+            background: linear-gradient(135deg, var(--success-color), #20c997);
             color: white;
         }
 
         .action-btn.warning {
-            background: linear-gradient(135deg, #ffc107, #fd7e14);
+            background: linear-gradient(135deg, var(--warning-color), #fd7e14);
             color: white;
         }
 
         .action-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
-        /* Responsive */
-        @media (max-width: 1200px) {
+        /* QR Code Section */
+        .qr-section {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .qr-preview {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        #qrCodeDisplay {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 5px;
+            background: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
             .main-content {
-                grid-template-columns: 300px 1fr;
+                grid-template-columns: 280px 1fr;
             }
             .properties-panel {
                 display: none;
@@ -376,12 +402,86 @@
         }
 
         @media (max-width: 768px) {
+            .container {
+                height: auto;
+                min-height: 100vh;
+            }
+
+            .header {
+                padding: 12px 15px;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
             .main-content {
                 grid-template-columns: 1fr;
+                grid-template-rows: auto 1fr auto;
             }
+
             .controls-panel {
+                display: none;
                 border-right: none;
-                border-bottom: 1px solid #e9ecef;
+                border-bottom: 1px solid #ddd;
+            }
+
+            .controls-panel.active {
+                display: block;
+            }
+
+            .properties-panel {
+                display: none;
+                border-left: none;
+                border-top: 1px solid #ddd;
+            }
+
+            .properties-panel.active {
+                display: block;
+            }
+
+            .canvas-area {
+                padding: 15px;
+                min-height: 500px;
+            }
+
+            #posterCanvas {
+                max-width: 100%;
+                height: auto;
+            }
+
+            .template-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .element-toolbar {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .panel {
+                padding: 15px;
+            }
+
+            .control-group {
+                padding: 12px;
+            }
+
+            .template-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .element-toolbar {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .canvas-controls {
+                flex-direction: column;
+            }
+
+            .canvas-btn {
+                width: 100%;
             }
         }
 
@@ -399,20 +499,24 @@
                 top: 0;
                 width: 100%;
                 box-shadow: none;
+                border: none;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header>
+        <!-- Header -->
+        <div class="header">
             <h1>🎨 STUDIO POSTER PRO</h1>
-            <p class="subtitle">Editor Professionale per Poster e Volantini con Canvas Avanzato</p>
-        </header>
+            <button class="mobile-menu-btn" onclick="togglePanel('controls-panel')">☰ Controlli</button>
+            <button class="mobile-menu-btn" onclick="togglePanel('properties-panel')">⚙️ Proprietà</button>
+        </div>
 
+        <!-- Main Content -->
         <div class="main-content">
-            <!-- Pannello Sinistro - Controlli -->
-            <div class="controls-panel">
+            <!-- Pannello Controlli -->
+            <div class="panel controls-panel" id="controls-panel">
                 <!-- Upload Immagini -->
                 <div class="control-group">
                     <h3>🖼️ Carica Immagini</h3>
@@ -433,98 +537,98 @@
 
                 <!-- Template Design -->
                 <div class="control-group">
-                    <h3>🎨 Template Predefiniti</h3>
+                    <h3>🎨 Template</h3>
                     <div class="template-grid">
                         <div class="template-item active" onclick="applyTemplate(1)">
                             <div class="template-preview template-1"></div>
-                            <small>Moderno Blu</small>
+                            <small>Moderno</small>
                         </div>
                         <div class="template-item" onclick="applyTemplate(2)">
                             <div class="template-preview template-2"></div>
-                            <small>Caldo Arancione</small>
+                            <small>Caldo</small>
                         </div>
                         <div class="template-item" onclick="applyTemplate(3)">
                             <div class="template-preview template-3"></div>
-                            <small>Fresco Verde</small>
+                            <small>Fresco</small>
                         </div>
                         <div class="template-item" onclick="applyTemplate(4)">
                             <div class="template-preview template-4"></div>
-                            <small>Elegante Viola</small>
-                        </div>
-                        <div class="template-item" onclick="applyTemplate(5)">
-                            <div class="template-preview template-5"></div>
-                            <small>Turchese</small>
-                        </div>
-                        <div class="template-item" onclick="applyTemplate(6)">
-                            <div class="template-preview template-6"></div>
-                            <small>Energico Giallo</small>
+                            <small>Elegante</small>
                         </div>
                     </div>
                 </div>
 
-                <!-- Contenuti Testuali -->
+                <!-- Contenuti -->
                 <div class="control-group">
                     <h3>📝 Contenuti</h3>
-                    <input type="text" id="businessName" placeholder="Nome Attività" value="IL TUO NEGOZIO" onchange="updateBusinessName()">
-                    <input type="text" id="offerTitle" placeholder="Titolo Offerta" value="GRANDE APERTURA!" onchange="updateOfferTitle()">
-                    <textarea id="offerDescription" placeholder="Descrizione Offerta" onchange="updateOfferDescription()">Sconto del 20% su tutti i prodotti! Offerta valida fino al 31/12/2024</textarea>
-                    <input type="text" id="priceInfo" placeholder="Informazioni Prezzo" value="SCONTO 20%" onchange="updatePriceInfo()">
+                    <input type="text" id="businessName" placeholder="Nome Attività" value="IL TUO NEGOZIO">
+                    <input type="text" id="offerTitle" placeholder="Titolo Offerta" value="GRANDE APERTURA!">
+                    <textarea id="offerDescription" placeholder="Descrizione Offerta">Sconto del 20% su tutti i prodotti! Offerta valida fino al 31/12/2024</textarea>
+                    <input type="text" id="priceInfo" placeholder="Informazioni Prezzo" value="SCONTO 20%">
+                </div>
+
+                <!-- QR Code Section -->
+                <div class="control-group">
+                    <h3>🔗 QR Code</h3>
+                    <input type="url" id="websiteUrl" placeholder="https://iltuonegozio.com" value="https://iltuonegozio.com" onchange="updateQRCode()">
+                    <div class="qr-section">
+                        <strong>Anteprima QR Code:</strong>
+                        <div class="qr-preview">
+                            <div id="qrCodeDisplay"></div>
+                            <small>Scansiona per visitare il sito</small>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Contatti -->
                 <div class="control-group">
                     <h3>📞 Contatti</h3>
-                    <input type="text" id="phoneNumber" placeholder="Telefono" value="+39 012 345 6789" onchange="updateContactInfo()">
-                    <input type="text" id="businessAddress" placeholder="Indirizzo" value="Via Roma 123, Città" onchange="updateContactInfo()">
-                    <input type="url" id="websiteUrl" placeholder="Sito Web" value="https://iltuonegozio.com" onchange="updateQRCode()">
+                    <input type="text" id="phoneNumber" placeholder="Telefono" value="+39 012 345 6789">
+                    <input type="text" id="businessAddress" placeholder="Indirizzo" value="Via Roma 123, Città">
                 </div>
             </div>
 
-            <!-- Pannello Centrale - Canvas -->
-            <div class="canvas-panel">
+            <!-- Canvas Area -->
+            <div class="canvas-area">
                 <div class="canvas-container">
                     <canvas id="posterCanvas" width="600" height="800"></canvas>
                 </div>
                 <div class="canvas-controls">
-                    <button class="canvas-btn" onclick="deleteSelected()">🗑️ Elimina Selezionato</button>
-                    <button class="canvas-btn" onclick="bringToFront()">⬆️ Porta in Primo Piano</button>
-                    <button class="canvas-btn" onclick="sendToBack()">⬇️ Porta Sotto</button>
+                    <button class="canvas-btn" onclick="deleteSelected()">🗑️ Elimina</button>
+                    <button class="canvas-btn" onclick="bringToFront()">⬆️ Avanti</button>
+                    <button class="canvas-btn" onclick="sendToBack()">⬇️ Dietro</button>
+                    <button class="canvas-btn" onclick="centerCanvas()">🎯 Centra</button>
                 </div>
             </div>
 
-            <!-- Pannello Destro - Proprietà -->
-            <div class="properties-panel">
+            <!-- Pannello Proprietà -->
+            <div class="panel properties-panel" id="properties-panel">
                 <div class="control-group">
-                    <h3>🎛️ Proprietà Oggetto</h3>
-                    <div class="property-group">
-                        <label>Dimensione Testo</label>
-                        <input type="range" id="fontSize" min="10" max="120" value="36" onchange="updateObjectProperty('fontSize', this.value)">
-                        
-                        <label>Colore Testo</label>
-                        <div class="color-grid">
-                            <div class="color-swatch active" style="background: #2c3e50;" onclick="setColor('#2c3e50')"></div>
-                            <div class="color-swatch" style="background: #e74c3c;" onclick="setColor('#e74c3c')"></div>
-                            <div class="color-swatch" style="background: #2ecc71;" onclick="setColor('#2ecc71')"></div>
-                            <div class="color-swatch" style="background: #f39c12;" onclick="setColor('#f39c12')"></div>
-                            <div class="color-swatch" style="background: #9b59b6;" onclick="setColor('#9b59b6')"></div>
-                            <div class="color-swatch" style="background: #1abc9c;" onclick="setColor('#1abc9c')"></div>
-                            <div class="color-swatch" style="background: #34495e;" onclick="setColor('#34495e')"></div>
-                            <div class="color-swatch" style="background: #e67e22;" onclick="setColor('#e67e22')"></div>
-                        </div>
-
-                        <label>Font</label>
-                        <div class="font-selector">
-                            <div class="font-option font-arial active" onclick="setFont('Arial')">Arial</div>
-                            <div class="font-option font-georgia" onclick="setFont('Georgia')">Georgia</div>
-                            <div class="font-option font-verdana" onclick="setFont('Verdana')">Verdana</div>
-                            <div class="font-option font-impact" onclick="setFont('Impact')">Impact</div>
-                            <div class="font-option font-tahoma" onclick="setFont('Tahoma')">Tahoma</div>
-                            <div class="font-option font-courier" onclick="setFont('Courier New')">Courier</div>
-                        </div>
-
-                        <label>Opacità</label>
-                        <input type="range" id="opacity" min="0" max="1" step="0.1" value="1" onchange="updateObjectProperty('opacity', this.value)">
+                    <h3>🎛️ Proprietà</h3>
+                    
+                    <label>Dimensione Testo: <span id="fontSizeValue">36</span>px</label>
+                    <input type="range" id="fontSize" min="10" max="120" value="36" onchange="updateFontSize(this.value)">
+                    
+                    <label>Colore Testo</label>
+                    <div class="color-grid">
+                        <div class="color-swatch active" style="background: #2c3e50;" onclick="setColor('#2c3e50')"></div>
+                        <div class="color-swatch" style="background: #e74c3c;" onclick="setColor('#e74c3c')"></div>
+                        <div class="color-swatch" style="background: #2ecc71;" onclick="setColor('#2ecc71')"></div>
+                        <div class="color-swatch" style="background: #f39c12;" onclick="setColor('#f39c12')"></div>
+                        <div class="color-swatch" style="background: #9b59b6;" onclick="setColor('#9b59b6')"></div>
+                        <div class="color-swatch" style="background: #1abc9c;" onclick="setColor('#1abc9c')"></div>
                     </div>
+
+                    <label>Font</label>
+                    <div class="font-selector">
+                        <div class="font-option font-arial active" onclick="setFont('Arial')">Arial</div>
+                        <div class="font-option font-georgia" onclick="setFont('Georgia')">Georgia</div>
+                        <div class="font-option font-verdana" onclick="setFont('Verdana')">Verdana</div>
+                        <div class="font-option font-impact" onclick="setFont('Impact')">Impact</div>
+                    </div>
+
+                    <label>Opacità: <span id="opacityValue">100</span>%</label>
+                    <input type="range" id="opacity" min="0" max="1" step="0.1" value="1" onchange="updateOpacity(this.value)">
                 </div>
 
                 <div class="action-buttons">
@@ -532,10 +636,10 @@
                         💾 Salva Progetto
                     </button>
                     <button class="action-btn success" onclick="exportAsImage()">
-                        📸 Esporta come Immagine
+                        📸 Esporta Immagine
                     </button>
                     <button class="action-btn warning" onclick="printPoster()">
-                        🖨️ Stampa Poster
+                        🖨️ Stampa
                     </button>
                 </div>
             </div>
@@ -543,31 +647,143 @@
     </div>
 
     <script>
-        // Inizializzazione Canvas Fabric.js
+        // Inizializzazione Canvas
         let canvas = new fabric.Canvas('posterCanvas', {
             backgroundColor: '#ffffff',
             preserveObjectStacking: true
         });
 
         // Variabili globali
-        let currentTemplate = 1;
+        let currentQRCode = null;
 
-        // Inizializzazione del design
+        // Inizializzazione
         function initializeDesign() {
-            // Aggiungi elementi base
-            addBusinessName();
-            addOfferTitle();
-            addOfferDescription();
-            addPriceInfo();
-            addContactInfo();
-            addQRCode();
+            createDefaultPoster();
+            updateQRCode();
         }
 
-        // Funzioni per aggiungere elementi
+        // Crea poster di default
+        function createDefaultPoster() {
+            // Sfondo
+            const background = new fabric.Rect({
+                width: 600,
+                height: 800,
+                fill: '#667eea',
+                selectable: false,
+                evented: false
+            });
+            canvas.add(background);
+
+            // Titolo principale
+            const title = new fabric.IText('IL TUO NEGOZIO', {
+                left: 50,
+                top: 50,
+                fontFamily: 'Impact',
+                fontSize: 48,
+                fill: '#ffffff',
+                fontWeight: 'bold',
+                shadow: 'rgba(0,0,0,0.3) 2px 2px 4px'
+            });
+            canvas.add(title);
+
+            // Offerta
+            const offer = new fabric.IText('GRANDE APERTURA!', {
+                left: 50,
+                top: 300,
+                fontFamily: 'Arial',
+                fontSize: 36,
+                fill: '#f1c40f',
+                fontWeight: 'bold'
+            });
+            canvas.add(offer);
+
+            // Descrizione
+            const description = new fabric.Text('Sconto del 20% su tutti i prodotti!\nOfferta valida fino al 31/12/2024', {
+                left: 50,
+                top: 400,
+                fontFamily: 'Arial',
+                fontSize: 20,
+                fill: '#ffffff',
+                lineHeight: 1.4
+            });
+            canvas.add(description);
+
+            // Prezzo
+            const price = new fabric.IText('SCONTO 20%', {
+                left: 50,
+                top: 500,
+                fontFamily: 'Impact',
+                fontSize: 42,
+                fill: '#e74c3c',
+                fontWeight: 'bold'
+            });
+            canvas.add(price);
+
+            // Contatti
+            const contacts = new fabric.Text('📞 +39 012 345 6789\n📍 Via Roma 123, Città', {
+                left: 50,
+                top: 650,
+                fontFamily: 'Arial',
+                fontSize: 16,
+                fill: '#ecf0f1',
+                lineHeight: 1.4
+            });
+            canvas.add(contacts);
+        }
+
+        // Aggiorna QR Code
+        function updateQRCode() {
+            const url = document.getElementById('websiteUrl').value;
+            if (!url) return;
+
+            // Aggiorna anteprima QR
+            const qrDisplay = document.getElementById('qrCodeDisplay');
+            qrDisplay.innerHTML = '';
+            new QRCode(qrDisplay, {
+                text: url,
+                width: 80,
+                height: 80,
+                colorDark: "#000000",
+                colorLight: "#ffffff"
+            });
+
+            // Cerca e aggiorna QR code sul canvas
+            const objects = canvas.getObjects();
+            let qrExists = false;
+            
+            objects.forEach(obj => {
+                if (obj.qrCode) {
+                    qrExists = true;
+                    canvas.remove(obj);
+                }
+            });
+
+            // Crea nuovo QR code
+            setTimeout(() => {
+                const qrImg = qrDisplay.querySelector('img');
+                if (qrImg) {
+                    fabric.Image.fromURL(qrImg.src, function(img) {
+                        img.set({
+                            left: 450,
+                            top: 650,
+                            scaleX: 0.7,
+                            scaleY: 0.7,
+                            qrCode: true,
+                            cornerStyle: 'circle',
+                            transparentCorners: false
+                        });
+                        canvas.add(img);
+                        canvas.renderAll();
+                    });
+                }
+            }, 100);
+        }
+
+        // Aggiungi elementi
         function addText() {
             const text = new fabric.IText('Doppio click per modificare', {
                 left: 100,
-                top: 100,
+                top: 200,
                 fontFamily: 'Arial',
                 fontSize: 24,
                 fill: '#2c3e50'
@@ -583,101 +799,19 @@
                 width: 100,
                 height: 100,
                 fill: '#667eea',
-                opacity: 0.8
+                opacity: 0.8,
+                rx: 10,
+                ry: 10
             });
             canvas.add(rect);
             canvas.setActiveObject(rect);
         }
 
-        function addBusinessName() {
-            const text = new fabric.IText('IL TUO NEGOZIO', {
-                left: 50,
-                top: 50,
-                fontFamily: 'Impact',
-                fontSize: 48,
-                fill: '#2c3e50',
-                fontWeight: 'bold'
-            });
-            canvas.add(text);
-        }
-
-        function addOfferTitle() {
-            const text = new fabric.IText('GRANDE APERTURA!', {
-                left: 50,
-                top: 300,
-                fontFamily: 'Arial',
-                fontSize: 36,
-                fill: '#e74c3c',
-                fontWeight: 'bold'
-            });
-            canvas.add(text);
-        }
-
-        function addOfferDescription() {
-            const text = new fabric.Text('Sconto del 20% su tutti i prodotti!\nOfferta valida fino al 31/12/2024', {
-                left: 50,
-                top: 400,
-                fontFamily: 'Arial',
-                fontSize: 20,
-                fill: '#2c3e50',
-                lineHeight: 1.4
-            });
-            canvas.add(text);
-        }
-
-        function addPriceInfo() {
-            const text = new fabric.IText('SCONTO 20%', {
-                left: 50,
-                top: 500,
-                fontFamily: 'Impact',
-                fontSize: 42,
-                fill: '#27ae60',
-                fontWeight: 'bold'
-            });
-            canvas.add(text);
-        }
-
-        function addContactInfo() {
-            const text = new fabric.Text('📞 +39 012 345 6789\n📍 Via Roma 123, Città', {
-                left: 50,
-                top: 650,
-                fontFamily: 'Arial',
-                fontSize: 16,
-                fill: '#7f8c8d',
-                lineHeight: 1.4
-            });
-            canvas.add(text);
-        }
-
         function addQRCode() {
-            const websiteUrl = document.getElementById('websiteUrl').value;
-            const qrCodeDiv = document.createElement('div');
-            new QRCode(qrCodeDiv, {
-                text: websiteUrl,
-                width: 80,
-                height: 80,
-                colorDark: "#000000",
-                colorLight: "#ffffff"
-            });
-
-            setTimeout(() => {
-                const qrImg = qrCodeDiv.querySelector('img');
-                if (qrImg) {
-                    fabric.Image.fromURL(qrImg.src, function(img) {
-                        img.set({
-                            left: 450,
-                            top: 650,
-                            scaleX: 0.8,
-                            scaleY: 0.8
-                        });
-                        canvas.add(img);
-                    });
-                }
-            }, 100);
+            updateQRCode();
         }
 
         function addLogo() {
-            // Simula l'aggiunta di un logo
             const rect = new fabric.Rect({
                 left: 450,
                 top: 50,
@@ -717,10 +851,13 @@
                             left: 100,
                             top: 150,
                             scaleX: 0.3,
-                            scaleY: 0.3
+                            scaleY: 0.3,
+                            cornerStyle: 'circle',
+                            transparentCorners: false
                         });
                         canvas.add(img);
                         canvas.setActiveObject(img);
+                        canvas.renderAll();
                     });
                 };
                 reader.readAsDataURL(file);
@@ -729,24 +866,24 @@
 
         // Applica template
         function applyTemplate(templateId) {
-            currentTemplate = templateId;
             document.querySelectorAll('.template-item').forEach(item => item.classList.remove('active'));
             event.target.closest('.template-item').classList.add('active');
             
-            // Cambia colore di sfondo in base al template
-            const colors = [
-                '#ffffff', // Template 1 - Bianco
-                '#fff5f5', // Template 2 - Rosso chiaro
-                '#f0fff4', // Template 3 - Verde chiaro
-                '#faf5ff', // Template 4 - Viola chiaro
-                '#f0fffc', // Template 5 - Turchese chiaro
-                '#fffaf0'  // Template 6 - Giallo chiaro
-            ];
-            canvas.backgroundColor = colors[templateId - 1];
-            canvas.renderAll();
+            const colors = {
+                1: '#667eea',
+                2: '#e74c3c', 
+                3: '#2ecc71',
+                4: '#9b59b6'
+            };
+            
+            const background = canvas.getObjects()[0];
+            if (background && background.type === 'rect') {
+                background.set('fill', colors[templateId]);
+                canvas.renderAll();
+            }
         }
 
-        // Funzioni di utilità canvas
+        // Funzioni canvas
         function deleteSelected() {
             const activeObject = canvas.getActiveObject();
             if (activeObject) {
@@ -770,36 +907,52 @@
             }
         }
 
+        function centerCanvas() {
+            canvas.renderAll();
+        }
+
         // Aggiornamento proprietà
-        function updateObjectProperty(property, value) {
+        function updateFontSize(value) {
+            document.getElementById('fontSizeValue').textContent = value;
             const activeObject = canvas.getActiveObject();
-            if (activeObject) {
-                activeObject.set(property, property === 'fontSize' ? parseInt(value) : value);
+            if (activeObject && activeObject.type.includes('text')) {
+                activeObject.set('fontSize', parseInt(value));
                 canvas.renderAll();
             }
         }
 
         function setColor(color) {
+            document.querySelectorAll('.color-swatch').forEach(swatch => swatch.classList.remove('active'));
+            event.target.classList.add('active');
+            
             const activeObject = canvas.getActiveObject();
             if (activeObject) {
                 activeObject.set('fill', color);
                 canvas.renderAll();
             }
-            document.querySelectorAll('.color-swatch').forEach(swatch => swatch.classList.remove('active'));
-            event.target.classList.add('active');
         }
 
         function setFont(font) {
+            document.querySelectorAll('.font-option').forEach(option => option.classList.remove('active'));
+            event.target.classList.add('active');
+            
             const activeObject = canvas.getActiveObject();
-            if (activeObject && activeObject.type === 'i-text') {
+            if (activeObject && activeObject.type.includes('text')) {
                 activeObject.set('fontFamily', font);
                 canvas.renderAll();
             }
-            document.querySelectorAll('.font-option').forEach(option => option.classList.remove('active'));
-            event.target.classList.add('active');
         }
 
-        // Funzioni di esportazione
+        function updateOpacity(value) {
+            document.getElementById('opacityValue').textContent = Math.round(value * 100);
+            const activeObject = canvas.getActiveObject();
+            if (activeObject) {
+                activeObject.set('opacity', parseFloat(value));
+                canvas.renderAll();
+            }
+        }
+
+        // Esportazione
         function exportAsImage() {
             const dataURL = canvas.toDataURL({
                 format: 'png',
@@ -830,35 +983,45 @@
             window.print();
         }
 
-        // Aggiornamento in tempo reale
-        function updateBusinessName() {
-            // Implementa l'aggiornamento del testo sul canvas
-        }
-
-        function updateOfferTitle() {
-            // Implementa l'aggiornamento del testo sul canvas
-        }
-
-        function updateOfferDescription() {
-            // Implementa l'aggiornamento del testo sul canvas
-        }
-
-        function updatePriceInfo() {
-            // Implementa l'aggiornamento del testo sul canvas
-        }
-
-        function updateContactInfo() {
-            // Implementa l'aggiornamento del testo sul canvas
-        }
-
-        function updateQRCode() {
-            // Implementa l'aggiornamento del QR code
+        // Mobile menu
+        function togglePanel(panelId) {
+            const panel = document.getElementById(panelId);
+            panel.classList.toggle('active');
         }
 
         // Inizializzazione
         window.addEventListener('load', function() {
             initializeDesign();
             loadDesign();
+            
+            // Adatta canvas alle dimensioni dello schermo
+            function resizeCanvas() {
+                const container = document.querySelector('.canvas-container');
+                const canvasEl = document.getElementById('posterCanvas');
+                
+                if (window.innerWidth < 768) {
+                    canvasEl.width = 350;
+                    canvasEl.height = 500;
+                    canvas.setDimensions({ width: 350, height: 500 });
+                } else {
+                    canvasEl.width = 600;
+                    canvasEl.height = 800;
+                    canvas.setDimensions({ width: 600, height: 800 });
+                }
+                canvas.renderAll();
+            }
+            
+            resizeCanvas();
+            window.addEventListener('resize', resizeCanvas);
+        });
+
+        // Aggiorna contenuti in tempo reale
+        document.getElementById('businessName').addEventListener('input', function() {
+            // Implementa l'aggiornamento del testo sul canvas
+        });
+
+        document.getElementById('offerTitle').addEventListener('input', function() {
+            // Implementa l'aggiornamento del testo sul canvas  
         });
     </script>
 </body>
