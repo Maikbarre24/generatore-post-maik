@@ -48,28 +48,41 @@
             color: white;
             padding: 15px 25px;
             display: flex;
-            justify-content: between;
+            justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 15px;
         }
 
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
         .header h1 {
             font-size: clamp(1.5em, 4vw, 2.5em);
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #ff6b6b;
             margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header .subtitle {
+            color: #ecf0f1;
+            font-size: clamp(0.9em, 2vw, 1.1em);
         }
 
         .mobile-menu-btn {
             display: none;
-            background: none;
+            background: var(--primary-color);
             border: none;
             color: white;
-            font-size: 1.5em;
+            font-size: 1.2em;
             cursor: pointer;
-            padding: 5px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 5px;
         }
 
         /* Main Content - Layout Responsive */
@@ -409,6 +422,12 @@
 
             .header {
                 padding: 12px 15px;
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header-content {
+                justify-content: center;
             }
 
             .mobile-menu-btn {
@@ -424,6 +443,7 @@
                 display: none;
                 border-right: none;
                 border-bottom: 1px solid #ddd;
+                max-height: 400px;
             }
 
             .controls-panel.active {
@@ -434,6 +454,7 @@
                 display: none;
                 border-left: none;
                 border-top: 1px solid #ddd;
+                max-height: 400px;
             }
 
             .properties-panel.active {
@@ -456,6 +477,15 @@
 
             .element-toolbar {
                 grid-template-columns: repeat(4, 1fr);
+            }
+
+            .canvas-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .canvas-btn {
+                width: 200px;
             }
         }
 
@@ -483,6 +513,10 @@
             .canvas-btn {
                 width: 100%;
             }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
         }
 
         /* Stampa */
@@ -508,9 +542,14 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <h1>🎨 STUDIO POSTER PRO</h1>
-            <button class="mobile-menu-btn" onclick="togglePanel('controls-panel')">☰ Controlli</button>
-            <button class="mobile-menu-btn" onclick="togglePanel('properties-panel')">⚙️ Proprietà</button>
+            <div class="header-content">
+                <h1>🎨 STUDIO POSTER PRO</h1>
+                <div class="subtitle">Editor Professionale per Poster e Volantini</div>
+            </div>
+            <div class="mobile-controls">
+                <button class="mobile-menu-btn" onclick="togglePanel('controls-panel')">☰ Controlli</button>
+                <button class="mobile-menu-btn" onclick="togglePanel('properties-panel')">⚙️ Proprietà</button>
+            </div>
         </div>
 
         <!-- Main Content -->
@@ -561,16 +600,16 @@
                 <!-- Contenuti -->
                 <div class="control-group">
                     <h3>📝 Contenuti</h3>
-                    <input type="text" id="businessName" placeholder="Nome Attività" value="IL TUO NEGOZIO">
-                    <input type="text" id="offerTitle" placeholder="Titolo Offerta" value="GRANDE APERTURA!">
-                    <textarea id="offerDescription" placeholder="Descrizione Offerta">Sconto del 20% su tutti i prodotti! Offerta valida fino al 31/12/2024</textarea>
-                    <input type="text" id="priceInfo" placeholder="Informazioni Prezzo" value="SCONTO 20%">
+                    <input type="text" id="businessName" placeholder="Nome Attività" value="IL TUO NEGOZIO" oninput="updateBusinessName()">
+                    <input type="text" id="offerTitle" placeholder="Titolo Offerta" value="GRANDE APERTURA!" oninput="updateOfferTitle()">
+                    <textarea id="offerDescription" placeholder="Descrizione Offerta" oninput="updateOfferDescription()">Sconto del 20% su tutti i prodotti! Offerta valida fino al 31/12/2024</textarea>
+                    <input type="text" id="priceInfo" placeholder="Informazioni Prezzo" value="SCONTO 20%" oninput="updatePriceInfo()">
                 </div>
 
                 <!-- QR Code Section -->
                 <div class="control-group">
                     <h3>🔗 QR Code</h3>
-                    <input type="url" id="websiteUrl" placeholder="https://iltuonegozio.com" value="https://iltuonegozio.com" onchange="updateQRCode()">
+                    <input type="url" id="websiteUrl" placeholder="https://iltuonegozio.com" value="https://iltuonegozio.com" oninput="updateQRCode()">
                     <div class="qr-section">
                         <strong>Anteprima QR Code:</strong>
                         <div class="qr-preview">
@@ -583,8 +622,8 @@
                 <!-- Contatti -->
                 <div class="control-group">
                     <h3>📞 Contatti</h3>
-                    <input type="text" id="phoneNumber" placeholder="Telefono" value="+39 012 345 6789">
-                    <input type="text" id="businessAddress" placeholder="Indirizzo" value="Via Roma 123, Città">
+                    <input type="text" id="phoneNumber" placeholder="Telefono" value="+39 012 345 6789" oninput="updateContactInfo()">
+                    <input type="text" id="businessAddress" placeholder="Indirizzo" value="Via Roma 123, Città" oninput="updateContactInfo()">
                 </div>
             </div>
 
@@ -607,7 +646,7 @@
                     <h3>🎛️ Proprietà</h3>
                     
                     <label>Dimensione Testo: <span id="fontSizeValue">36</span>px</label>
-                    <input type="range" id="fontSize" min="10" max="120" value="36" onchange="updateFontSize(this.value)">
+                    <input type="range" id="fontSize" min="10" max="120" value="36" oninput="updateFontSize(this.value)">
                     
                     <label>Colore Testo</label>
                     <div class="color-grid">
@@ -628,7 +667,7 @@
                     </div>
 
                     <label>Opacità: <span id="opacityValue">100</span>%</label>
-                    <input type="range" id="opacity" min="0" max="1" step="0.1" value="1" onchange="updateOpacity(this.value)">
+                    <input type="range" id="opacity" min="0" max="1" step="0.1" value="1" oninput="updateOpacity(this.value)">
                 </div>
 
                 <div class="action-buttons">
@@ -654,7 +693,13 @@
         });
 
         // Variabili globali
-        let currentQRCode = null;
+        let textElements = {
+            businessName: null,
+            offerTitle: null,
+            offerDescription: null,
+            priceInfo: null,
+            contactInfo: null
+        };
 
         // Inizializzazione
         function initializeDesign() {
@@ -675,7 +720,7 @@
             canvas.add(background);
 
             // Titolo principale
-            const title = new fabric.IText('IL TUO NEGOZIO', {
+            textElements.businessName = new fabric.IText('IL TUO NEGOZIO', {
                 left: 50,
                 top: 50,
                 fontFamily: 'Impact',
@@ -684,10 +729,10 @@
                 fontWeight: 'bold',
                 shadow: 'rgba(0,0,0,0.3) 2px 2px 4px'
             });
-            canvas.add(title);
+            canvas.add(textElements.businessName);
 
             // Offerta
-            const offer = new fabric.IText('GRANDE APERTURA!', {
+            textElements.offerTitle = new fabric.IText('GRANDE APERTURA!', {
                 left: 50,
                 top: 300,
                 fontFamily: 'Arial',
@@ -695,10 +740,10 @@
                 fill: '#f1c40f',
                 fontWeight: 'bold'
             });
-            canvas.add(offer);
+            canvas.add(textElements.offerTitle);
 
             // Descrizione
-            const description = new fabric.Text('Sconto del 20% su tutti i prodotti!\nOfferta valida fino al 31/12/2024', {
+            textElements.offerDescription = new fabric.Text('Sconto del 20% su tutti i prodotti!\nOfferta valida fino al 31/12/2024', {
                 left: 50,
                 top: 400,
                 fontFamily: 'Arial',
@@ -706,10 +751,10 @@
                 fill: '#ffffff',
                 lineHeight: 1.4
             });
-            canvas.add(description);
+            canvas.add(textElements.offerDescription);
 
             // Prezzo
-            const price = new fabric.IText('SCONTO 20%', {
+            textElements.priceInfo = new fabric.IText('SCONTO 20%', {
                 left: 50,
                 top: 500,
                 fontFamily: 'Impact',
@@ -717,10 +762,10 @@
                 fill: '#e74c3c',
                 fontWeight: 'bold'
             });
-            canvas.add(price);
+            canvas.add(textElements.priceInfo);
 
             // Contatti
-            const contacts = new fabric.Text('📞 +39 012 345 6789\n📍 Via Roma 123, Città', {
+            textElements.contactInfo = new fabric.Text('📞 +39 012 345 6789\n📍 Via Roma 123, Città', {
                 left: 50,
                 top: 650,
                 fontFamily: 'Arial',
@@ -728,7 +773,7 @@
                 fill: '#ecf0f1',
                 lineHeight: 1.4
             });
-            canvas.add(contacts);
+            canvas.add(textElements.contactInfo);
         }
 
         // Aggiorna QR Code
@@ -747,13 +792,10 @@
                 colorLight: "#ffffff"
             });
 
-            // Cerca e aggiorna QR code sul canvas
+            // Rimuovi QR code esistente dal canvas
             const objects = canvas.getObjects();
-            let qrExists = false;
-            
             objects.forEach(obj => {
                 if (obj.qrCode) {
-                    qrExists = true;
                     canvas.remove(obj);
                 }
             });
@@ -777,6 +819,50 @@
                     });
                 }
             }, 100);
+        }
+
+        // Funzioni per aggiornare il testo
+        function updateBusinessName() {
+            const value = document.getElementById('businessName').value;
+            if (textElements.businessName) {
+                textElements.businessName.set('text', value);
+                canvas.renderAll();
+            }
+        }
+
+        function updateOfferTitle() {
+            const value = document.getElementById('offerTitle').value;
+            if (textElements.offerTitle) {
+                textElements.offerTitle.set('text', value);
+                canvas.renderAll();
+            }
+        }
+
+        function updateOfferDescription() {
+            const value = document.getElementById('offerDescription').value;
+            if (textElements.offerDescription) {
+                textElements.offerDescription.set('text', value);
+                canvas.renderAll();
+            }
+        }
+
+        function updatePriceInfo() {
+            const value = document.getElementById('priceInfo').value;
+            if (textElements.priceInfo) {
+                textElements.priceInfo.set('text', value);
+                canvas.renderAll();
+            }
+        }
+
+        function updateContactInfo() {
+            const phone = document.getElementById('phoneNumber').value;
+            const address = document.getElementById('businessAddress').value;
+            const value = `📞 ${phone}\n📍 ${address}`;
+            
+            if (textElements.contactInfo) {
+                textElements.contactInfo.set('text', value);
+                canvas.renderAll();
+            }
         }
 
         // Aggiungi elementi
@@ -867,7 +953,7 @@
         // Applica template
         function applyTemplate(templateId) {
             document.querySelectorAll('.template-item').forEach(item => item.classList.remove('active'));
-            event.target.closest('.template-item').classList.add('active');
+            event.currentTarget.classList.add('active');
             
             const colors = {
                 1: '#667eea',
@@ -944,7 +1030,8 @@
         }
 
         function updateOpacity(value) {
-            document.getElementById('opacityValue').textContent = Math.round(value * 100);
+            const percent = Math.round(value * 100);
+            document.getElementById('opacityValue').textContent = percent;
             const activeObject = canvas.getActiveObject();
             if (activeObject) {
                 activeObject.set('opacity', parseFloat(value));
@@ -1000,12 +1087,8 @@
                 const canvasEl = document.getElementById('posterCanvas');
                 
                 if (window.innerWidth < 768) {
-                    canvasEl.width = 350;
-                    canvasEl.height = 500;
                     canvas.setDimensions({ width: 350, height: 500 });
                 } else {
-                    canvasEl.width = 600;
-                    canvasEl.height = 800;
                     canvas.setDimensions({ width: 600, height: 800 });
                 }
                 canvas.renderAll();
@@ -1013,15 +1096,6 @@
             
             resizeCanvas();
             window.addEventListener('resize', resizeCanvas);
-        });
-
-        // Aggiorna contenuti in tempo reale
-        document.getElementById('businessName').addEventListener('input', function() {
-            // Implementa l'aggiornamento del testo sul canvas
-        });
-
-        document.getElementById('offerTitle').addEventListener('input', function() {
-            // Implementa l'aggiornamento del testo sul canvas  
         });
     </script>
 </body>
